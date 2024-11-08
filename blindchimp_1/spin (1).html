@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Slot Machine</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f7f7f7;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 800px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      
+    }
+
+    .description {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    /* Toggle switch styling */
+    .toggle {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toggle input {
+      margin-right: 10px;
+    }
+
+    /* Slot machine styling */
+    .slot-machine {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .slot {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: normal;
+      font-family: Impact, Charcoal, sans-serif; color: #555;
+      background: #f1f1f1;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .slot::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: grey;
+      transform: translateY(-50%);
+    }
+
+    /* Buttons styling */
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .spin {
+      background-color: #f4a261;
+    }
+
+    .spin:hover {
+      background-color: #e76f51;
+    }
+
+    .optimize {
+      background-color: #2a9d8f;
+    }
+
+    .optimize:hover {
+      background-color: #21867a;
+    }
+      /* Highlight Winning Slot */
+    .highlight-final {
+      animation: highlight 1s ease;
+      border: 4px solid #f4a261;
+    }
+
+    @keyframes highlight {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+      /* Highlight Winning Slot */
+    .highlight-final {
+      animation: highlight 1s ease;
+      border: 4px solid #f4a261;
+    }
+
+    @keyframes highlight {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Shake effect for slots */
+    .shake {
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+
+    /* Spinning effect background */
+    .spinning {
+      background-color: #f4f4f4;
+    }
+      /* Responsive styling */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+        max-width: 100%;
+      }
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
+
+      .slot-machine {
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .slot {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+      }
+
+      .button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="title">Blind-folded Chimp Mode</div>
+    <div class="description">
+      Shit Happens! What if stocks go bankrupt? What if strategies fail? How can we be sure that the model will survive the test of time? How do we eliminate forward bias in the models?
+    </div>
+
+    <div class="toggle">
+      <input type="checkbox" id="sector-diversification" checked>
+      <label for="sector-diversification">Sector Diversification</label>
+    </div>
+
+    <div class="slot-machine">
+      <div class="slot">KO</div>
+      <div class="slot">GOOG</div>
+      <div class="slot">CRM</div>
+      <div class="slot">KMI</div>
+      <div class="slot">PFE</div>
+      <div class="slot">ANSS</div>
+      <div class="slot">COST</div>
+    </div>
+
+    <div class="buttons">
+      <button class="button spin" onclick="spinSlots()">Spin</button>
+      <button class="button optimize">Optimize</button>
+    </div>
+  </div>
+
+  <script>
+    const sp100Stocks = [
+      "AAPL", "MSFT", "AMZN", "GOOG", "GOOGL", "BRK.B", "NVDA", "TSLA", "META", "V", "UNH", "JNJ", "XOM", "WMT", "JPM", "MA", "PG", "LLY", "HD", "CVX",
+      "ABBV", "KO", "PEP", "MRK", "BAC", "COST", "TMO", "AVGO", "MCD", "DIS", "ABT", "VZ", "CSCO", "ADBE", "NFLX", "WFC", "NEE", "PM", "TXN", "NKE", "LIN",
+      "UNP", "RTX", "AMD", "LOW", "MS", "INTC", "CVS", "SCHW", "HON", "AMGN", "IBM", "AMT", "BMY", "BLK", "GS", "BA", "CAT", "DE", "GE", "SPGI", "PLD",
+      "MDT", "SBUX", "AXP", "TGT", "ELV", "ISRG", "SYK", "ZTS", "BKNG", "CI", "MDLZ", "GILD", "ADP", "PGR", "C", "NOW", "CB", "MO", "BSX", "SO", "LMT",
+      "EQIX", "TJX", "PYPL", "BDX", "DUK", "MMC", "MU", "ICE", "REGN", "GM", "F", "KMB", "APD", "ATVI", "NSC", "ETN", "FDX"
+    ];
+
+    function spinSlots() {
+  const slots = document.querySelectorAll('.slot');
+  slots.forEach((slot, index) => {
+    let iterations = 0;
+    setTimeout(() => {
+      const interval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * sp100Stocks.length);
+        slot.textContent = sp100Stocks[randomIndex];
+            slot.classList.add('spinning');
+        iterations++;
+        if (iterations > 30) { // Spin effect duration
+          clearInterval(interval);
+          // Settle on final stock symbol
+          const finalIndex = Math.floor(Math.random() * sp100Stocks.length);
+          slot.textContent = sp100Stocks[finalIndex];
+          slot.classList.remove('spinning');
+          slot.classList.add('highlight-final', 'shake');
+          setTimeout(() => slot.classList.remove('highlight-final', 'shake'), 1000);
+          slot.classList.add('highlight-final');
+          setTimeout(() => slot.classList.remove('highlight-final'), 1000);
+        }
+      }, 80); // Speed of spin effect
+    }, index * 200); // Cascading delay for slots
+  });
+}
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+

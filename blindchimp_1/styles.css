@@ -1,0 +1,1051 @@
+/* Base theme colors */
+:root {
+    --bg-primary: #0F0F1A;
+    --bg-secondary: #1A1A2F;
+    --accent-primary: #6366F1;
+    --accent-secondary: #8B5CF6;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A5B4FC;
+    --success: #34D399;
+    --error: #F87171;
+    --warning: #FBBF24;
+    --card-bg: rgba(26, 26, 47, 0.5);
+    --border-color: rgba(99, 102, 241, 0.1);
+    --hover-bg: #1e4dd8;
+}
+
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 0 0 250px;
+    background: var(--bg-secondary);
+    backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    height: 100vh;
+    width: 250px;
+    z-index: 100;
+    color: var(--text-primary);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 2rem;
+    min-height: 100vh;
+    width: calc(100% - 250px);
+}
+
+/* Add these container styles */
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Cards */
+.card, .result-card, section, .chart-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover, .result-card:hover, section:hover, .chart-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.button {
+    background: var(--accent-primary);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: none;
+}
+
+.button:hover {
+    background: #1e4dd8;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Form inputs */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+input, select, textarea {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.8rem;
+    color: var(--text-primary);
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 1px var(--accent-primary);
+    outline: none;
+}
+
+/* Slot machine */
+.slot-machine {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    flex-wrap: nowrap;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.slot {
+    flex: 0 0 80px;
+    height: 80px;
+    min-width: 80px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background: linear-gradient(145deg, var(--bg-secondary), var(--bg-primary));
+    border: 2px solid var(--accent-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    transition: all 0.3s ease;
+}
+
+.slot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.button.spin, .button.optimize {
+    flex: 1;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.button.spin {
+    background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.button.optimize {
+    background: linear-gradient(45deg, var(--success), var(--accent-secondary));
+    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+}
+
+.button.spin:hover, .button.optimize:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Add animation for spinning slots */
+@keyframes moveUpDown {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+
+.slot.spinning {
+    animation: moveUpDown 0.5s linear infinite;
+}
+
+.slot.highlight-final {
+    border-color: #34D399;
+    color: #34D399;
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.slot.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Add smooth scrolling for the slot machine */
+.slot-machine::-webkit-scrollbar {
+    height: 8px;
+}
+
+.slot-machine::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 4px;
+}
+
+.slot-machine::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+/* Charts */
+.chart-container {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+#chart {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    margin-top: 1rem;
+    background: var(--card-bg);
+}
+
+/* Animations */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Add these new styles */
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.nav-item.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/* Update these existing styles */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.comparison-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    backdrop-filter: blur(5px);
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+}
+
+tr:hover {
+    background: var(--hover-bg);
+}
+
+/* Remove the old nav-bar styles since we're using the sidebar now */
+.nav-bar {
+    display: none;
+}
+
+/* Update the header styles */
+header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+/* Update the two-column layout */
+.two-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Update the results grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Update the slot machine container */
+.slot-machine-container {
+    width: 100%;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Update section styles */
+section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+/* Add container width for forms */
+.portfolio-input {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Asset weight group styles */
+.asset-weight-group {
+    display: grid;
+    grid-template-columns: 2fr 1fr 40px;  /* Changed to 3 columns */
+    gap: 20px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.asset-weight-group:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Remove asset button */
+.remove-asset {
+    background: transparent;
+    color: var(--text-secondary);
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    margin-top: 25px;
+}
+
+.remove-asset:hover {
+    color: var(--error);
+    border-color: var(--error);
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.remove-asset::before {
+    content: "×";
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Asset input validation */
+.ticker-validation {
+    font-size: 0.8em;
+    margin-top: 4px;
+}
+
+.ticker-valid {
+    color: var(--success);
+}
+
+.ticker-invalid {
+    color: var(--error);
+}
+
+.ticker-error {
+    color: var(--warning);
+}
+
+/* Add asset button */
+.button.add-asset {
+    background: var(--accent-secondary);
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.button.add-asset:hover {
+    background: var(--success);
+}
+
+/* Weight warning */
+.weight-warning {
+    color: var(--warning);
+    padding: 0.5rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    background: rgba(243, 156, 18, 0.1);
+    text-align: center;
+}
+
+/* Update the results section spacing */
+.results {
+    padding: 2rem;
+    margin-top: 3rem;  /* Increased top margin */
+}
+
+.results h2 {
+    margin-bottom: 2rem;  /* Increased margin below title */
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;  /* Increased gap between cards */
+    margin-bottom: 3rem;  /* Increased bottom margin */
+}
+
+.result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;  /* Increased padding */
+}
+
+.result-card h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.metric:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.metric span:last-child {
+    font-weight: 500;
+    color: var(--text-primary);
+    text-shadow: none;
+}
+
+.comparison-section {
+    margin-top: 3rem;  /* Increased top margin */
+    padding: 2rem;  /* Increased padding */
+}
+
+.comparison-section h3 {
+    margin-bottom: 2rem;  /* Increased margin below title */
+}
+
+.comparison-section table {
+    border-spacing: 0 0.8rem;  /* Added space between table rows */
+    border-collapse: separate;
+}
+
+.comparison-section th,
+.comparison-section td {
+    padding: 1.2rem 1.5rem;  /* Increased cell padding */
+}
+
+/* Add these styles for the chart */
+#chart {
+    width: 100%;
+    height: 400px;
+    position: relative;
+}
+
+#chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.placeholder-chart {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+}
+
+/* Chart controls */
+.chart-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.chart-type-selector {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--card-bg);
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.chart-type-btn {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-type-btn:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.chart-type-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    border: 1px solid var(--accent-primary);
+}
+
+/* Update text colors for chart */
+.chart-container h2,
+.chart-container text {
+    color: var(--text-primary);
+}
+
+/* Add this to make calendar icon white */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Update the creator credit positioning */
+.creator-credit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Add professional fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+
+/* Update typography */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 1.75rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Update metric values for better readability */
+.metric span:last-child {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Update table headers */
+th {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+/* Update buttons */
+.button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* Update navigation */
+.nav-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+/* Add styles for the allocation list */
+#allocation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.allocation-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.allocation-item:last-child {
+    border-bottom: none;
+}
+
+.allocation-ticker {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.allocation-weight {
+    color: var(--accent-primary);
+}
+
+/* Add styles for the description box */
+.description-box {
+    margin-bottom: 2.5rem;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: center;
+}
+
+.description {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.description-preview {
+    color: var(--text-primary);
+    opacity: 1;
+}
+
+.description-full {
+    color: var(--text-primary);
+    opacity: 1;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+.description.expanded .description-full {
+    display: inline;
+    opacity: 1;
+}
+
+.button.read-more {
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0.8rem 2rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    margin: 0 auto;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.button.read-more:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+.button.read-more::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.button.read-more:hover::after {
+    transform: scaleX(1);
+}
+
+/* Add styles for the analyze button */
+.button.analyze-blind-chimp {
+    background: linear-gradient(45deg, var(--success), var(--accent-secondary));
+    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+    margin-left: 1rem;
+}
+
+.button.analyze-blind-chimp:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Add styles for date inputs */
+.date-inputs {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.date-inputs .input-group {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* Add styles for monthly returns table */
+.monthly-returns {
+    margin-top: 2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem; /* Add padding for scrollbar */
+}
+
+#monthly-returns-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+#monthly-returns-table th,
+#monthly-returns-table td {
+    padding: 0.75rem 1rem;
+    text-align: right;
+    white-space: nowrap;
+}
+
+#monthly-returns-table th:first-child,
+#monthly-returns-table td:first-child {
+    text-align: left;
+    position: sticky;
+    left: 0;
+    background: var(--bg-secondary);
+    font-weight: 600;
+    z-index: 1;
+}
+
+/* Scrollbar styling */
+.monthly-returns::-webkit-scrollbar {
+    height: 8px;
+}
+
+.monthly-returns::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 4px;
+}
+
+.monthly-returns::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+.monthly-returns::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
+
+.positive-return {
+    color: var(--success);
+}
+
+.negative-return {
+    color: var(--error);
+}
+
+/* Add loading animation styles */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 26, 47, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Update chart container for loading overlay */
+.chart-container {
+    position: relative;
+}
+
+/* Add these button animation styles */
+.button.analyze,
+.button.analyze-blind-chimp {
+    position: relative;
+    overflow: hidden;
+}
+
+.button.analyze:disabled,
+.button.analyze-blind-chimp:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.button.analyze.loading,
+.button.analyze-blind-chimp.loading {
+    padding-right: 40px;  /* Make space for the spinner */
+}
+
+.button.analyze.loading::after,
+.button.analyze-blind-chimp.loading::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: button-spin 0.8s linear infinite;
+}
+
+@keyframes button-spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Add pulse effect on hover */
+.button.analyze:not(:disabled):hover,
+.button.analyze-blind-chimp:not(:disabled):hover {
+    animation: button-pulse 1s infinite;
+}
+
+@keyframes button-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* About page styles */
+.about-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.about-content {
+    color: var(--text-primary);
+}
+
+.about-content h2 {
+    margin: 2rem 0 1rem;
+    color: var(--accent-primary);
+}
+
+.about-content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.contact-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+  

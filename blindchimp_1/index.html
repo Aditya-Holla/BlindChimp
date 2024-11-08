@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blind Chimp</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">Blind Chimp</div>
+            <nav class="side-nav">
+                <a href="index.html" class="nav-item active">
+                    <span>Blind Chimp</span>
+                </a>
+                <a href="portfolio.html" class="nav-item">
+                    <span>Portfolio Tester</span>
+                </a>
+                <a href="about.html" class="nav-item">
+                    <span>About Me</span>
+                </a>
+            </nav>
+            <div class="creator-credit">
+                Created by Aditya Holla
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="content-container">
+                <nav class="nav-bar">
+                    <div class="nav-links">
+                        <a href="index.html" class="nav-link active">Blind Chimp</a>
+                        <a href="portfolio.html" class="nav-link">Portfolio Tester</a>
+                    </div>
+                </nav>
+
+                <header>
+                    <h1>Blind Chimp</h1>
+                    <p>Test Your Luck Against the Market</p>
+                </header>
+
+                <main>
+                    <div class="description-box">
+                        <p class="description">
+                            <span class="description-preview">Investing is fraught with uncertainty—stocks may underperform, strategies can falter, and forward bias (the risky assumption that past performance predicts the future) is a persistent challenge.</span>
+                            <span class="description-full">While forward bias can't be fully eliminated, its impact can be reduced by rigorously testing model resilience. We use tools like the Blindfolded Chimp Test, which confirms the model's effectiveness even with randomly chosen stocks, and the Chaos Monkey Test, which checks stability by flipping positive returns to negative. Ready to try the Blindfolded Chimp Challenge? Build a portfolio that "loses" to the S&P 500 on Sharpe Ratio, following these rules: large-cap stocks only, default parameters with risk controls active, and a minimum of five stocks.</span>
+                        </p>
+                        <button class="button read-more">Read More</button>
+                    </div>
+
+                    <section class="asset-selection">
+                        <h2>Asset Selection</h2>
+                        
+                        <div class="slot-machine-container">
+                            <div class="slot-machine">
+                                <div class="slot">KO</div>
+                                <div class="slot">GOOG</div>
+                                <div class="slot">CRM</div>
+                                <div class="slot">KMI</div>
+                                <div class="slot">PFE</div>
+                                <div class="slot">ANSS</div>
+                                <div class="slot">COST</div>
+                            </div>
+
+                            <div class="buttons">
+                                <button class="button spin" onclick="spinSlots()">Spin</button>
+                                <button class="button analyze-blind-chimp" onclick="analyzeBlindChimp()" style="display: none;">Analyze Portfolio</button>
+                            </div>
+                        </div>
+
+                        <div class="date-inputs">
+                            <div class="input-group">
+                                <label for="start-date">Start Date:</label>
+                                <input type="date" id="start-date">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="end-date">End Date:</label>
+                                <input type="date" id="end-date">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="chart-container">
+                        <h2>Price Chart</h2>
+                        <div id="chart">
+                            <div class="placeholder-chart">Chart Placeholder</div>
+                        </div>
+                    </section>
+
+                    <section class="results">
+                        <h2>Backtest Results</h2>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Performance Metrics</h3>
+                                <div class="metric">
+                                    <span>Total Return:</span>
+                                    <span id="total-return">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Win Rate:</span>
+                                    <span id="win-rate">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Profit Factor:</span>
+                                    <span id="profit-factor">0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h3>Risk Metrics</h3>
+                                <div class="metric">
+                                    <span>Max Drawdown:</span>
+                                    <span id="max-drawdown">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Standard Deviation:</span>
+                                    <span id="std-dev">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>MAR Ratio:</span>
+                                    <span id="mar-ratio">0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h3>Trade Statistics</h3>
+                                <div class="metric">
+                                    <span>Total Trades:</span>
+                                    <span id="total-trades">0</span>
+                                </div>
+                                <div class="metric">
+                                    <span>CAGR:</span>
+                                    <span id="cagr">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Sharpe Ratio:</span>
+                                    <span id="sharpe-ratio">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comparison-section">
+                            <h3>Strategy vs S&P 500 Comparison</h3>
+                            <table id="benchmark-table">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Your Strategy</th>
+                                        <th>S&P 500</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CAGR</td>
+                                        <td id="strategy-cagr">0.00%</td>
+                                        <td id="sp500-cagr">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sharpe Ratio</td>
+                                        <td id="strategy-sharpe">0.00</td>
+                                        <td id="sp500-sharpe">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Standard Deviation</td>
+                                        <td id="strategy-std">0.00%</td>
+                                        <td id="sp500-std">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peak Drawdown</td>
+                                        <td id="strategy-drawdown">0.00%</td>
+                                        <td id="sp500-drawdown">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MAR Ratio</td>
+                                        <td id="strategy-mar">0.00</td>
+                                        <td id="sp500-mar">0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="monthly-returns">
+                            <h3>Monthly Returns (%)</h3>
+                            <table id="monthly-returns-table">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>May</th>
+                                        <th>Jun</th>
+                                        <th>Jul</th>
+                                        <th>Aug</th>
+                                        <th>Sep</th>
+                                        <th>Oct</th>
+                                        <th>Nov</th>
+                                        <th>Dec</th>
+                                        <th>YTD</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monthly-returns-body">
+                                    <!-- Will be populated with monthly returns -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sp100Stocks = [
+            "AAPL", "MSFT", "AMZN", "GOOG", "GOOGL", "BRK.B", "NVDA", "TSLA", "META", "V", "UNH", "JNJ", "XOM", "WMT", "JPM", "MA", "PG", "LLY", "HD", "CVX",
+            "ABBV", "KO", "PEP", "MRK", "BAC", "COST", "TMO", "AVGO", "MCD", "DIS", "ABT", "VZ", "CSCO", "ADBE", "NFLX", "WFC", "NEE", "PM", "TXN", "NKE", "LIN",
+            "UNP", "RTX", "AMD", "LOW", "MS", "INTC", "CVS", "SCHW", "HON", "AMGN", "IBM", "AMT", "BMY", "BLK", "GS", "BA", "CAT", "DE", "GE", "SPGI", "PLD",
+            "MDT", "SBUX", "AXP", "TGT", "ELV", "ISRG", "SYK", "ZTS", "BKNG", "CI", "MDLZ", "GILD", "ADP", "PGR", "C", "NOW", "CB", "MO", "BSX", "SO", "LMT",
+            "EQIX", "TJX", "PYPL", "BDX", "DUK", "MMC", "MU", "ICE", "REGN", "GM", "F", "KMB", "APD", "ATVI", "NSC", "ETN", "FDX"
+        ];
+
+        let selectedStocks = [];
+        
+        function spinSlots() {
+            const slots = document.querySelectorAll('.slot');
+            const spinButton = document.querySelector('.button.spin');
+            const analyzeButton = document.querySelector('.button.analyze-blind-chimp');
+            
+            spinButton.disabled = true;
+            selectedStocks = [];
+
+            slots.forEach((slot, index) => {
+                let iterations = 0;
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        const randomIndex = Math.floor(Math.random() * sp100Stocks.length);
+                        slot.textContent = sp100Stocks[randomIndex];
+                        slot.classList.add('spinning');
+                        iterations++;
+                        if (iterations > 20) {
+                            clearInterval(interval);
+                            const finalIndex = Math.floor(Math.random() * sp100Stocks.length);
+                            const selectedStock = sp100Stocks[finalIndex];
+                            slot.textContent = selectedStock;
+                            selectedStocks.push(selectedStock);
+                            slot.classList.remove('spinning');
+                            slot.classList.add('highlight-final', 'shake');
+                            setTimeout(() => slot.classList.remove('highlight-final', 'shake'), 1000);
+
+                            if (index === slots.length - 1) {
+                                spinButton.disabled = false;
+                                analyzeButton.style.display = 'block';
+                            }
+                        }
+                    }, 100);
+                }, index * 300);
+            });
+        }
+
+        // Add these at the start of your script
+        const dataCache = new Map(); // Cache for historical data
+        const API_DELAY = 250; // Delay between API calls to avoid rate limiting
+
+        // Update the fetchHistoricalData function
+        async function fetchHistoricalData(ticker, startDate, endDate) {
+            const cacheKey = `${ticker}-${startDate}-${endDate}`;
+            
+            // Check cache first
+            if (dataCache.has(cacheKey)) {
+                return dataCache.get(cacheKey);
+            }
+
+            try {
+                // Use a CORS proxy
+                const proxyUrl = 'https://corsproxy.io/?';
+                const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&period1=${Math.floor(new Date(startDate).getTime() / 1000)}&period2=${Math.floor(new Date(endDate).getTime() / 1000)}`;
+                
+                // Add delay between requests
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(yahooUrl), {
+                    headers: {
+                        'Origin': window.location.origin
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.chart?.result?.[0]?.indicators?.quote?.[0]?.close) {
+                    throw new Error(`No data available for ${ticker}`);
+                }
+
+                const prices = data.chart.result[0].indicators.quote[0].close;
+                const timestamps = data.chart.result[0].timestamp;
+
+                // Process and normalize data
+                const processedData = timestamps.map((time, i) => ({
+                    date: new Date(time * 1000),
+                    price: prices[i] || null
+                })).filter(item => item.price !== null);
+
+                // Cache the result
+                dataCache.set(cacheKey, processedData);
+                
+                return processedData;
+
+            } catch (error) {
+                console.error(`Error fetching data for ${ticker}:`, error);
+                throw new Error(`Failed to fetch data for ${ticker}`);
+            }
+        }
+
+        // Update the analyzeBlindChimp function
+        async function analyzeBlindChimp() {
+            const analyzeButton = document.querySelector('.button.analyze-blind-chimp');
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+
+            // Basic validation
+            if (selectedStocks.length !== 7) {
+                alert('Please spin the slots first');
+                return;
+            }
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates');
+                return;
+            }
+
+            // Add loading state
+            analyzeButton.disabled = true;
+            analyzeButton.classList.add('loading');
+            analyzeButton.textContent = 'Analyzing...';
+
+            try {
+                // Create portfolio with fixed allocations using correct ticker symbols
+                const portfolio = [
+                    ...selectedStocks.map(stock => ({ ticker: stock, weight: 0.10 })), // 70% in selected stocks
+                    { ticker: 'IEF', weight: 0.10 },  // Changed from TLT to IEF (7-10 Year Treasury Bond ETF)
+                    { ticker: 'IAU', weight: 0.10 },  // Changed from GLD to IAU (iShares Gold Trust)
+                    { ticker: 'UUP', weight: 0.10 }   // Invesco DB US Dollar Index Bullish Fund
+                ];
+
+                // Fetch data for all assets and SPY
+                const dataPromises = [
+                    ...portfolio.map(asset => fetchHistoricalData(asset.ticker, startDate, endDate)),
+                    fetchHistoricalData('SPY', startDate, endDate)
+                ];
+
+                const allData = await Promise.all(dataPromises);
+                
+                // Calculate portfolio values
+                const portfolioData = calculatePortfolioValues(
+                    allData.slice(0, -1), // Asset data
+                    portfolio, // Portfolio weights
+                    allData[0].map(d => d.date) // Dates
+                );
+
+                const spyData = allData[allData.length - 1];
+
+                // Create chart data
+                const chartData = {
+                    labels: portfolioData.dates,
+                    portfolioValues: portfolioData.values,
+                    spyValues: spyData.map(d => d.price)
+                };
+
+                // Update chart
+                updateChart(chartData);
+
+                // Calculate and update metrics
+                const metrics = calculateMetrics(portfolioData.values);
+                const benchmarkMetrics = calculateMetrics(spyData.map(d => d.price));
+
+                updateMetricsDisplay(metrics, benchmarkMetrics);
+                updateMonthlyReturns(portfolioData);
+
+            } catch (error) {
+                console.error('Analysis error:', error);
+                alert('Error analyzing portfolio: ' + error.message);
+            } finally {
+                analyzeButton.disabled = false;
+                analyzeButton.classList.remove('loading');
+                analyzeButton.textContent = 'Analyze Portfolio';
+            }
+        }
+
+        // Add this function to calculate portfolio values
+        function calculatePortfolioValues(assetData, portfolio, dates) {
+            const values = new Array(dates.length).fill(0);
+            const normalizedData = assetData.map(data => {
+                const firstPrice = data[0].price;
+                return data.map(d => d.price / firstPrice * 100);
+            });
+
+            portfolio.forEach((asset, i) => {
+                normalizedData[i].forEach((price, j) => {
+                    values[j] += price * asset.weight;
+                });
+            });
+
+            return {
+                dates: dates,
+                values: values
+            };
+        }
+
+        // Add these helper functions
+        function generateDataPoints(numDays) {
+            const points = [];
+            let currentValue = 100;
+            for (let i = 0; i < numDays; i++) {
+                const dailyReturn = (Math.random() * 4 - 2) / 100;
+                currentValue = currentValue * (1 + dailyReturn);
+                points.push(currentValue);
+            }
+            return points;
+        }
+
+        function generateDateLabels(startDate, endDate, numDays) {
+            const labels = [];
+            const start = new Date(startDate);
+            for (let i = 0; i < numDays; i++) {
+                const date = new Date(start);
+                date.setDate(start.getDate() + i);
+                labels.push(date.toISOString().split('T')[0]);
+            }
+            return labels;
+        }
+
+        function calculateMetrics(data) {
+            const returns = [];
+            for (let i = 1; i < data.length; i++) {
+                returns.push((data[i] - data[i-1]) / data[i-1]);
+            }
+
+            const totalReturn = ((data[data.length - 1] - data[0]) / data[0]) * 100;
+            const timePeriod = data.length / 252;
+            const cagr = (Math.pow(1 + totalReturn/100, 1/timePeriod) - 1) * 100;
+
+            let peak = data[0];
+            let maxDrawdown = 0;
+            for (const value of data) {
+                if (value > peak) peak = value;
+                const drawdown = (peak - value) / peak * 100;
+                if (drawdown > maxDrawdown) maxDrawdown = drawdown;
+            }
+
+            const volatility = Math.sqrt(252) * Math.sqrt(returns.reduce((sum, ret) => sum + ret * ret, 0) / returns.length) * 100;
+
+            return {
+                totalReturn: totalReturn,
+                cagr: cagr,
+                volatility: volatility,
+                maxDrawdown: maxDrawdown,
+                sharpeRatio: (cagr - 2) / volatility
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set end date to today
+            const today = new Date();
+            const endDateInput = document.getElementById('end-date');
+            endDateInput.valueAsDate = today;
+        });
+
+        function calculateMonthlyReturns(dataPoints, labels) {
+            const monthlyReturns = {};
+            let currentValue = dataPoints[0];
+            let currentDate = new Date(labels[0]);
+            
+            dataPoints.forEach((value, index) => {
+                const date = new Date(labels[index]);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                
+                if (!monthlyReturns[year]) {
+                    monthlyReturns[year] = Array(12).fill(null);
+                }
+                
+                if (month !== currentDate.getMonth() || index === dataPoints.length - 1) {
+                    const monthReturn = ((value / currentValue) - 1) * 100;
+                    monthlyReturns[year][currentDate.getMonth()] = monthReturn;
+                    currentValue = value;
+                    currentDate = date;
+                }
+            });
+            
+            return monthlyReturns;
+        }
+
+        function updateMonthlyReturnsTable(monthlyReturns) {
+            const tbody = document.getElementById('monthly-returns-body');
+            tbody.innerHTML = '';
+            
+            const years = Object.keys(monthlyReturns).sort();
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            years.forEach(year => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${year}</td>`;
+                
+                let yearTotal = 0;
+                months.forEach((month, index) => {
+                    const returnValue = monthlyReturns[year][index];
+                    const formattedReturn = returnValue ? returnValue.toFixed(2) : '-';
+                    const cellClass = returnValue > 0 ? 'positive-return' : 
+                                    returnValue < 0 ? 'negative-return' : '';
+                    
+                    row.innerHTML += `<td class="${cellClass}">${formattedReturn}</td>`;
+                    if (returnValue) yearTotal += returnValue;
+                });
+                
+                // Add YTD return
+                row.innerHTML += `<td class="${yearTotal > 0 ? 'positive-return' : 'negative-return'}">${yearTotal.toFixed(2)}</td>`;
+                tbody.appendChild(row);
+            });
+        }
+
+        document.querySelector('.button.read-more').addEventListener('click', function() {
+            const description = document.querySelector('.description');
+            const button = this;
+            
+            description.classList.toggle('expanded');
+            if (description.classList.contains('expanded')) {
+                button.textContent = 'Show Less';
+            } else {
+                button.textContent = 'Read More';
+            }
+        });
+
+        // Add these variables at the start of your script section
+        let currentChartType = 'line';
+        let currentChart = null;
+
+        // Add these chart configurations
+        const chartConfigs = {
+            'line': {
+                type: 'line',
+                fill: false,
+                tension: 0.1
+            },
+            'area': {
+                type: 'line',
+                fill: true,
+                tension: 0.1
+            },
+            'bar': {
+                type: 'bar',
+                fill: true,
+                backgroundColor: '#6366F1',
+                hoverBackgroundColor: '#4F46E5'
+            }
+        };
+
+        // Update the updateChart function to use these configurations
+        function updateChart(chartData) {
+            const chartElement = document.getElementById('chart');
+            chartElement.innerHTML = ''; // Clear existing content
+            const canvas = document.createElement('canvas');
+            chartElement.appendChild(canvas);
+
+            // Create new chart
+            currentChart = new Chart(canvas, {
+                type: currentChartType || 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: chartData.portfolioValues,
+                        borderColor: '#4c6ef5',
+                        backgroundColor: currentChartType === 'bar' ? '#4c6ef5' : 'rgba(76, 110, 245, 0.1)',
+                        tension: 0.1,
+                        fill: currentChartType === 'area'
+                    }, {
+                        label: 'S&P 500',
+                        data: chartData.spyValues,
+                        borderColor: '#00b894',
+                        backgroundColor: currentChartType === 'bar' ? '#00b894' : 'rgba(0, 184, 148, 0.1)',
+                        tension: 0.1,
+                        fill: currentChartType === 'area'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 20,
+                            right: 20,
+                            bottom: 20,
+                            left: 20
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#ffffff',
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            padding: 12,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    // Format the date to be more concise
+                                    const date = new Date(tooltipItems[0].label);
+                                    return date.toLocaleDateString('en-US', { 
+                                        month: 'short', 
+                                        day: 'numeric', 
+                                        year: 'numeric'
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff',
+                                maxTicksLimit: 8,  // Limit number of x-axis labels
+                                maxRotation: 0,    // Prevent label rotation
+                                callback: function(value, index, values) {
+                                    // Format x-axis labels to be more concise
+                                    const date = new Date(this.getLabelForValue(value));
+                                    return date.toLocaleDateString('en-US', { 
+                                        month: 'short', 
+                                        year: '2-digit'
+                                    });
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff',
+                                callback: function(value) {
+                                    // Format y-axis values
+                                    return value.toFixed(0);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Add this function to update metrics display
+        function updateMetricsDisplay(metrics, benchmarkMetrics) {
+            // Update performance metrics
+            document.getElementById('total-return').textContent = metrics.totalReturn.toFixed(2) + '%';
+            document.getElementById('win-rate').textContent = ((metrics.totalReturn > benchmarkMetrics.totalReturn) ? '100.00' : '0.00') + '%';
+            document.getElementById('profit-factor').textContent = (metrics.totalReturn / Math.abs(metrics.maxDrawdown)).toFixed(2);
+
+            // Update risk metrics
+            document.getElementById('max-drawdown').textContent = '-' + metrics.maxDrawdown.toFixed(2) + '%';
+            document.getElementById('std-dev').textContent = metrics.volatility.toFixed(2) + '%';
+            document.getElementById('mar-ratio').textContent = (metrics.cagr / metrics.maxDrawdown).toFixed(2);
+
+            // Update trade statistics
+            document.getElementById('total-trades').textContent = '1';
+            document.getElementById('cagr').textContent = metrics.cagr.toFixed(2) + '%';
+            document.getElementById('sharpe-ratio').textContent = metrics.sharpeRatio.toFixed(2);
+
+            // Update comparison metrics
+            document.getElementById('strategy-cagr').textContent = metrics.cagr.toFixed(2) + '%';
+            document.getElementById('sp500-cagr').textContent = benchmarkMetrics.cagr.toFixed(2) + '%';
+            document.getElementById('strategy-sharpe').textContent = metrics.sharpeRatio.toFixed(2);
+            document.getElementById('sp500-sharpe').textContent = benchmarkMetrics.sharpeRatio.toFixed(2);
+            document.getElementById('strategy-std').textContent = metrics.volatility.toFixed(2) + '%';
+            document.getElementById('sp500-std').textContent = benchmarkMetrics.volatility.toFixed(2) + '%';
+            document.getElementById('strategy-drawdown').textContent = '-' + metrics.maxDrawdown.toFixed(2) + '%';
+            document.getElementById('sp500-drawdown').textContent = '-' + benchmarkMetrics.maxDrawdown.toFixed(2) + '%';
+            document.getElementById('strategy-mar').textContent = (metrics.cagr / metrics.maxDrawdown).toFixed(2);
+            document.getElementById('sp500-mar').textContent = (benchmarkMetrics.cagr / benchmarkMetrics.maxDrawdown).toFixed(2);
+        }
+
+        // Add this function to update monthly returns
+        function updateMonthlyReturns(portfolioData) {
+            const monthlyReturns = {};
+            let currentValue = portfolioData.values[0];
+            let currentDate = portfolioData.dates[0];
+            
+            portfolioData.values.forEach((value, index) => {
+                const date = new Date(portfolioData.dates[index]);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                
+                if (!monthlyReturns[year]) {
+                    monthlyReturns[year] = Array(12).fill(null);
+                }
+                
+                if (month !== new Date(currentDate).getMonth() || index === portfolioData.values.length - 1) {
+                    const monthReturn = ((value / currentValue) - 1) * 100;
+                    monthlyReturns[year][new Date(currentDate).getMonth()] = monthReturn;
+                    currentValue = value;
+                    currentDate = portfolioData.dates[index];
+                }
+            });
+            
+            // Update the monthly returns table
+            const tbody = document.getElementById('monthly-returns-body');
+            tbody.innerHTML = '';
+            
+            const years = Object.keys(monthlyReturns).sort();
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            years.forEach(year => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${year}</td>`;
+                
+                let yearTotal = 0;
+                months.forEach((month, index) => {
+                    const returnValue = monthlyReturns[year][index];
+                    const formattedReturn = returnValue ? returnValue.toFixed(2) : '-';
+                    const cellClass = returnValue > 0 ? 'positive-return' : 
+                                    returnValue < 0 ? 'negative-return' : '';
+                    
+                    row.innerHTML += `<td class="${cellClass}">${formattedReturn}</td>`;
+                    if (returnValue) yearTotal += returnValue;
+                });
+                
+                // Add YTD return
+                row.innerHTML += `<td class="${yearTotal > 0 ? 'positive-return' : 'negative-return'}">${yearTotal.toFixed(2)}</td>`;
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html> 

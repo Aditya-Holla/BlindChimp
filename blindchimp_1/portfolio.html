@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Tester - Blind Chimp</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">Blind Chimp</div>
+            <nav class="side-nav">
+                <a href="index.html" class="nav-item">
+                    <span>Blind Chimp</span>
+                </a>
+                <a href="portfolio.html" class="nav-item active">
+                    <span>Portfolio Tester</span>
+                </a>
+                <a href="about.html" class="nav-item">
+                    <span>About Me</span>
+                </a>
+            </nav>
+            <div class="creator-credit">
+                Created by Aditya Holla
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <div class="content-container">
+                <nav class="nav-bar">
+                    <div class="nav-links">
+                        <a href="index.html" class="nav-link">Blind Chimp</a>
+                        <a href="portfolio.html" class="nav-link active">Portfolio Tester</a>
+                    </div>
+                </nav>
+
+                <header>
+                    <h1>Portfolio Tester</h1>
+                    <p>Test Your Portfolio Strategy</p>
+                </header>
+
+                <main>
+                    <section class="portfolio-input">
+                        <h2>Portfolio Configuration</h2>
+                        <div id="asset-inputs-container">
+                            <!-- Initial three asset input groups -->
+                            <div class="asset-weight-group">
+                                <div class="input-group asset-input">
+                                    <label for="asset-1">Asset 1:</label>
+                                    <input type="text" id="asset-1" placeholder="e.g., AAPL" class="asset-ticker">
+                                    <div class="ticker-validation"></div>
+                                </div>
+                                <div class="input-group weight-input">
+                                    <label for="weight-1">Weight (%):</label>
+                                    <input type="number" id="weight-1" min="0" max="100" value="33.33">
+                                </div>
+                                <button class="remove-asset" title="Remove Asset"></button>
+                            </div>
+
+                            <div class="asset-weight-group">
+                                <div class="input-group asset-input">
+                                    <label for="asset-2">Asset 2:</label>
+                                    <input type="text" id="asset-2" placeholder="e.g., MSFT" class="asset-ticker">
+                                    <div class="ticker-validation"></div>
+                                </div>
+                                <div class="input-group weight-input">
+                                    <label for="weight-2">Weight (%):</label>
+                                    <input type="number" id="weight-2" min="0" max="100" value="33.33">
+                                </div>
+                                <button class="remove-asset" title="Remove Asset"></button>
+                            </div>
+
+                            <div class="asset-weight-group">
+                                <div class="input-group asset-input">
+                                    <label for="asset-3">Asset 3:</label>
+                                    <input type="text" id="asset-3" placeholder="e.g., GOOGL" class="asset-ticker">
+                                    <div class="ticker-validation"></div>
+                                </div>
+                                <div class="input-group weight-input">
+                                    <label for="weight-3">Weight (%):</label>
+                                    <input type="number" id="weight-3" min="0" max="100" value="33.34">
+                                </div>
+                                <button class="remove-asset" title="Remove Asset"></button>
+                            </div>
+                        </div>
+
+                        <button id="add-asset" class="button add-asset">+ Add Another Asset</button>
+                        
+                        <div class="weight-warning" id="weight-warning" style="display: none;">
+                            Total weight must equal 100%
+                        </div>
+
+                        <div class="input-group">
+                            <label for="start-date">Start Date:</label>
+                            <input type="date" id="start-date">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="end-date">End Date:</label>
+                            <input type="date" id="end-date">
+                        </div>
+
+                        <button class="button analyze">Analyze Portfolio</button>
+                    </section>
+
+                    <section class="chart-container">
+                        <h2>Portfolio Performance</h2>
+                        <div class="chart-controls">
+                            <div class="chart-type-selector">
+                                <button class="chart-type-btn active" data-type="line">Line</button>
+                                <button class="chart-type-btn" data-type="area">Area</button>
+                                <button class="chart-type-btn" data-type="bar">Bar</button>
+                            </div>
+                        </div>
+                        <div id="chart">
+                            <div class="placeholder-chart">Chart Placeholder</div>
+                        </div>
+                    </section>
+
+                    <section class="results">
+                        <h2>Portfolio Analysis</h2>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Performance Metrics</h3>
+                                <div class="metric">
+                                    <span>Total Return:</span>
+                                    <span id="portfolio-return">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>CAGR:</span>
+                                    <span id="portfolio-cagr">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Volatility:</span>
+                                    <span id="portfolio-vol">0.00%</span>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h3>Risk Metrics</h3>
+                                <div class="metric">
+                                    <span>Max Drawdown:</span>
+                                    <span id="portfolio-drawdown">0.00%</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Sharpe Ratio:</span>
+                                    <span id="portfolio-sharpe">0.00</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Beta:</span>
+                                    <span id="portfolio-beta">0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <h3>Asset Allocation</h3>
+                                <div id="allocation-list">
+                                    <!-- Assets will be listed here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comparison-section">
+                            <h3>Benchmark Comparison</h3>
+                            <table id="benchmark-table">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Your Portfolio</th>
+                                        <th>S&P 500</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CAGR</td>
+                                        <td id="strategy-cagr">0.00%</td>
+                                        <td id="sp500-cagr">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sharpe Ratio</td>
+                                        <td id="strategy-sharpe">0.00</td>
+                                        <td id="sp500-sharpe">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Standard Deviation</td>
+                                        <td id="strategy-std">0.00%</td>
+                                        <td id="sp500-std">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peak Drawdown</td>
+                                        <td id="strategy-drawdown">0.00%</td>
+                                        <td id="sp500-drawdown">0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MAR Ratio</td>
+                                        <td id="strategy-mar">0.00</td>
+                                        <td id="sp500-mar">0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </main>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const container = document.getElementById('asset-inputs-container');
+                        const addButton = document.getElementById('add-asset');
+                        let assetCount = 3;
+                        
+                        // Cache for validated tickers
+                        const tickerCache = new Map();
+                        let validationTimeout;
+
+                        // Alternative simple validation using a predefined list
+                        async function validateTicker(input) {
+                            const ticker = input.value.toUpperCase();
+                            const validationDiv = input.parentElement.querySelector('.ticker-validation');
+                            
+                            if (!ticker) {
+                                validationDiv.innerHTML = '';
+                                return;
+                            }
+                            
+                            // List of valid tickers (you can expand this)
+                            const validTickers = [
+                                // Major US Stock Indices ETFs
+                                "SPY", "QQQ", "DIA", "IWM", "VTI", "VOO", "IVV",
+                                
+                                // Sector ETFs
+                                "XLK", "XLF", "XLE", "XLV", "XLP", "XLY", "XLI", "XLB", "XLU", "XLRE",
+                                
+                                // Popular Tech Stocks
+                                "AAPL", "MSFT", "GOOGL", "GOOG", "META", "NVDA", "TSLA", "AMD", "INTC", "CRM",
+                                
+                                // Financial Stocks
+                                "JPM", "BAC", "WFC", "GS", "MS", "V", "MA", "AXP", "BLK", "C",
+                                
+                                // Healthcare Stocks
+                                "JNJ", "PFE", "UNH", "ABBV", "MRK", "LLY", "TMO", "ABT", "BMY", "AMGN",
+                                
+                                // Consumer Stocks
+                                "AMZN", "WMT", "PG", "KO", "PEP", "COST", "MCD", "NKE", "SBUX", "DIS",
+                                
+                                // Industrial Stocks
+                                "CAT", "BA", "HON", "UPS", "LMT", "RTX", "GE", "MMM", "DE", "FDX",
+                                
+                                // Energy Stocks
+                                "XOM", "CVX", "COP", "SLB", "EOG", "PXD", "PSX", "VLO", "MPC", "KMI",
+                                
+                                // International ETFs
+                                "EFA", "EEM", "VEA", "VWO", "IEFA", "IEMG",
+                                
+                                // Bond ETFs
+                                "AGG", "BND", "TLT", "IEF", "SHY", "LQD", "HYG", "TIP",
+                                
+                                // Commodity ETFs
+                                "GLD", "SLV", "USO", "UNG", "DBC", "IAU"
+                            ];
+                            
+                            input.parentElement.classList.add('validating');
+                            
+                            // Simulate API delay
+                            await new Promise(resolve => setTimeout(resolve, 300));
+                            
+                            if (validTickers.includes(ticker)) {
+                                validationDiv.innerHTML = '<span class="valid-icon">✓</span> Valid ticker';
+                                validationDiv.className = 'ticker-validation ticker-valid';
+                                tickerCache.set(ticker, true);
+                            } else {
+                                validationDiv.innerHTML = '<span class="invalid-icon">✗</span> Invalid ticker';
+                                validationDiv.className = 'ticker-validation ticker-invalid';
+                                tickerCache.set(ticker, false);
+                            }
+                            
+                            input.parentElement.classList.remove('validating');
+                        }
+
+                        // Function to add new asset input (max 10 assets)
+                        function addAssetInput() {
+                            const currentAssets = container.querySelectorAll('.asset-weight-group').length;
+                            
+                            if (currentAssets >= 10) {
+                                alert('Maximum of 10 assets allowed');
+                                return;
+                            }
+                            
+                            assetCount++;
+                            const newGroup = document.createElement('div');
+                            newGroup.className = 'asset-weight-group';
+                            newGroup.innerHTML = `
+                                <div class="input-group asset-input">
+                                    <label for="asset-${assetCount}">Asset ${assetCount}:</label>
+                                    <input type="text" id="asset-${assetCount}" placeholder="e.g., AAPL" class="asset-ticker">
+                                    <div class="ticker-validation"></div>
+                                </div>
+                                <div class="input-group weight-input">
+                                    <label for="weight-${assetCount}">Weight (%):</label>
+                                    <input type="number" id="weight-${assetCount}" min="0" max="100" value="0">
+                                </div>
+                                <button class="remove-asset" title="Remove Asset"></button>
+                            `;
+                            container.appendChild(newGroup);
+                            
+                            // Add validation listener to new input
+                            const newInput = newGroup.querySelector('.asset-ticker');
+                            newInput.addEventListener('input', debounce(() => validateTicker(newInput), 300));
+                            
+                            redistributeWeights();
+                        }
+
+                        // Function to remove asset input with weight redistribution
+                        function removeAssetInput(button) {
+                            const container = document.getElementById('asset-inputs-container');
+                            const assetGroups = container.querySelectorAll('.asset-weight-group');
+                            
+                            if (assetGroups.length > 1) {
+                                const groupToRemove = button.closest('.asset-weight-group');
+                                const removedWeight = parseFloat(groupToRemove.querySelector('.weight-input input').value) || 0;
+                                groupToRemove.remove();
+                                
+                                redistributeWeights(removedWeight);
+                                reorderLabels();
+                                updateWeights();
+                            } else {
+                                alert('Portfolio must have at least one asset');
+                            }
+                        }
+
+                        // Function to redistribute weights
+                        function redistributeWeights(removedWeight = 0) {
+                            const remainingGroups = container.querySelectorAll('.asset-weight-group');
+                            const remainingCount = remainingGroups.length;
+                            
+                            if (remainingCount === 0) return;
+                            
+                            const weightPerAsset = (100 / remainingCount).toFixed(2);
+                            
+                            remainingGroups.forEach((group, index) => {
+                                const weightInput = group.querySelector('.weight-input input');
+                                if (index === remainingCount - 1) {
+                                    // Last asset gets the remainder to ensure total is exactly 100
+                                    const totalOthers = Array.from(remainingGroups)
+                                        .slice(0, -1)
+                                        .reduce((sum, g) => sum + parseFloat(g.querySelector('.weight-input input').value), 0);
+                                    weightInput.value = (100 - totalOthers).toFixed(2);
+                                } else {
+                                    weightInput.value = weightPerAsset;
+                                }
+                            });
+                        }
+
+                        // Debounce function to limit API calls
+                        function debounce(func, wait) {
+                            let timeout;
+                            return function executedFunction(...args) {
+                                const later = () => {
+                                    clearTimeout(timeout);
+                                    func(...args);
+                                };
+                                clearTimeout(timeout);
+                                timeout = setTimeout(later, wait);
+                            };
+                        }
+
+                        // Function to reorder labels after removal
+                        function reorderLabels() {
+                            const groups = container.querySelectorAll('.asset-weight-group');
+                            groups.forEach((group, index) => {
+                                const label = group.querySelector('label');
+                                const input = group.querySelector('.asset-ticker');
+                                const weightLabel = group.querySelector('.weight-input label');
+                                const weightInput = group.querySelector('.weight-input input');
+                                
+                                label.setAttribute('for', `asset-${index + 1}`);
+                                label.textContent = `Asset ${index + 1}:`;
+                                input.id = `asset-${index + 1}`;
+                                
+                                weightLabel.setAttribute('for', `weight-${index + 1}`);
+                                weightInput.id = `weight-${index + 1}`;
+                            });
+                            assetCount = groups.length;
+                        }
+
+                        // Add improved event listeners
+                        addButton.addEventListener('click', addAssetInput);
+
+                        container.addEventListener('click', (e) => {
+                            if (e.target.classList.contains('remove-asset')) {
+                                removeAssetInput(e.target);
+                            }
+                        });
+
+                        // Add validation listeners with debouncing to initial inputs
+                        document.querySelectorAll('.asset-ticker').forEach(input => {
+                            input.addEventListener('input', debounce(() => validateTicker(input), 300));
+                        });
+
+                        // Initial weight distribution
+                        redistributeWeights();
+
+                        // Function to update weights
+                        function updateWeights() {
+                            const weightInputs = document.querySelectorAll('.weight-input input');
+                            const warningDiv = document.getElementById('weight-warning');
+                            
+                            // Calculate total weight
+                            let total = 0;
+                            weightInputs.forEach(input => {
+                                total += Number(input.value) || 0;
+                            });
+
+                            // Show warning if total isn't 100%
+                            if (Math.abs(total - 100) > 0.01) {
+                                warningDiv.style.display = 'block';
+                            } else {
+                                warningDiv.style.display = 'none';
+                            }
+                        }
+
+                        // Add event listeners to all weight inputs
+                        container.addEventListener('input', function(e) {
+                            if (e.target.matches('.weight-input input')) {
+                                updateWeights();
+                            }
+                        });
+
+                        // Initial weight check
+                        updateWeights();
+                    });
+                </script>
+
+                <script>
+                    // Get the analyze button
+                    const analyzeButton = document.querySelector('.button.analyze');
+                    
+                    // Function to get portfolio data
+                    function getPortfolioData() {
+                        const assets = [];
+                        const assetGroups = document.querySelectorAll('.asset-weight-group');
+                        
+                        assetGroups.forEach(group => {
+                            const ticker = group.querySelector('.asset-ticker').value.toUpperCase();
+                            const weight = parseFloat(group.querySelector('.weight-input input').value);
+                            
+                            if (ticker && !isNaN(weight)) {
+                                assets.push({ ticker, weight: weight / 100 });
+                            }
+                        });
+                        
+                        return assets;
+                    }
+
+                    // Replace the existing analyzePortfolio function with this:
+                    async function analyzePortfolio() {
+                        // Get portfolio data
+                        const portfolio = getPortfolioData();
+                        const startDate = document.getElementById('start-date').value;
+                        const endDate = document.getElementById('end-date').value;
+
+                        // Basic validation
+                        if (portfolio.length === 0) {
+                            alert('Please add at least one valid asset');
+                            return;
+                        }
+                        if (!startDate || !endDate) {
+                            alert('Please select both start and end dates');
+                            return;
+                        }
+
+                        // Show loading state
+                        analyzeButton.disabled = true;
+                        analyzeButton.textContent = 'Analyzing...';
+
+                        try {
+                            // Log the portfolio data
+                            console.log('Portfolio:', portfolio);
+                            console.log('Date Range:', startDate, 'to', endDate);
+
+                            // Calculate date difference in days
+                            const diffTime = Math.abs(new Date(endDate) - new Date(startDate));
+                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                            // Generate semi-random data based on date range
+                            const dataPoints = generateDataPoints(diffDays);
+                            const labels = generateDateLabels(startDate, endDate, diffDays);
+
+                            // Create chart
+                            const chartElement = document.getElementById('chart');
+                            
+                            // Remove the placeholder if it exists
+                            const placeholder = chartElement.querySelector('.placeholder-chart');
+                            if (placeholder) {
+                                placeholder.remove();
+                            }
+
+                            // Create a canvas element for the chart
+                            const canvas = document.createElement('canvas');
+                            chartElement.appendChild(canvas);
+
+                            // Create chart with generated data
+                            currentChart = new Chart(canvas, {
+                                type: currentChartType || 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Portfolio Value',
+                                        data: dataPoints,
+                                        borderColor: '#4c6ef5',
+                                        backgroundColor: currentChartType === 'bar' ? '#4c6ef5' : 'rgba(76, 110, 245, 0.1)',
+                                        tension: 0.1,
+                                        fill: currentChartType === 'area',
+                                        borderWidth: currentChartType === 'bar' ? 0 : 2  // No border for bars
+                                    }, {
+                                        label: 'S&P 500',
+                                        data: generateDataPoints(diffDays),
+                                        borderColor: '#00b894',
+                                        backgroundColor: currentChartType === 'bar' ? '#00b894' : 'rgba(0, 184, 148, 0.1)',
+                                        tension: 0.1,
+                                        fill: currentChartType === 'area',
+                                        borderWidth: currentChartType === 'bar' ? 0 : 2  // No border for bars
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    interaction: {
+                                        intersect: false,
+                                        mode: 'index',
+                                    },
+                                    plugins: {
+                                        title: {
+                                            display: true,
+                                            text: 'Portfolio Performance',
+                                            color: '#ffffff'
+                                        },
+                                        legend: {
+                                            labels: {
+                                                color: '#ffffff'
+                                            }
+                                        },
+                                        tooltip: {
+                                            enabled: true,
+                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                            titleColor: '#ffffff',
+                                            bodyColor: '#ffffff',
+                                            callbacks: {
+                                                label: function(context) {
+                                                    let label = context.dataset.label || '';
+                                                    if (label) {
+                                                        label += ': ';
+                                                    }
+                                                    if (context.parsed.y !== null) {
+                                                        label += new Intl.NumberFormat('en-US', {
+                                                            style: 'currency',
+                                                            currency: 'USD'
+                                                        }).format(context.parsed.y);
+                                                    }
+                                                    return label;
+                                                },
+                                                afterBody: function(tooltipItems) {
+                                                    const dataPoint = tooltipItems[0];
+                                                    const index = dataPoint.dataIndex;
+                                                    
+                                                    // Calculate daily return
+                                                    const dailyReturn = index > 0 
+                                                        ? ((dataPoints[index] - dataPoints[index-1]) / dataPoints[index-1] * 100).toFixed(2)
+                                                        : '0.00';
+                                                    
+                                                    return [
+                                                        '',
+                                                        `Daily Return: ${dailyReturn}%`,
+                                                        `Cumulative Return: ${((dataPoints[index] / dataPoints[0] - 1) * 100).toFixed(2)}%`,
+                                                        `Relative to S&P 500: ${(dataPoints[index] - spPoints[index]).toFixed(2)}`
+                                                    ];
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: {
+                                            display: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Date',
+                                                color: '#ffffff'
+                                            },
+                                            ticks: {
+                                                color: '#ffffff'
+                                            },
+                                            grid: {
+                                                color: 'rgba(255, 255, 255, 0.1)'
+                                            }
+                                        },
+                                        y: {
+                                            display: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Value ($)',
+                                                color: '#ffffff'
+                                            },
+                                            ticks: {
+                                                color: '#ffffff',
+                                                callback: function(value) {
+                                                    return new Intl.NumberFormat('en-US', {
+                                                        style: 'currency',
+                                                        currency: 'USD',
+                                                        minimumFractionDigits: 0,
+                                                        maximumFractionDigits: 0
+                                                    }).format(value);
+                                                }
+                                            },
+                                            grid: {
+                                                color: 'rgba(255, 255, 255, 0.1)'
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                            // Calculate metrics based on the data
+                            const metrics = calculateMetrics(dataPoints);
+
+                            // Update metrics display
+                            document.getElementById('portfolio-return').textContent = metrics.totalReturn.toFixed(2) + '%';
+                            document.getElementById('portfolio-cagr').textContent = metrics.cagr.toFixed(2) + '%';
+                            document.getElementById('portfolio-vol').textContent = metrics.volatility.toFixed(2) + '%';
+                            document.getElementById('portfolio-drawdown').textContent = '-' + metrics.maxDrawdown.toFixed(2) + '%';
+                            document.getElementById('portfolio-sharpe').textContent = metrics.sharpeRatio.toFixed(2);
+                            document.getElementById('portfolio-beta').textContent = metrics.beta.toFixed(2);
+
+                            // Update asset allocation display
+                            const allocationList = document.getElementById('allocation-list');
+                            allocationList.innerHTML = portfolio.map(asset => `
+                                <div class="allocation-item">
+                                    <span class="allocation-ticker">${asset.ticker}</span>
+                                    <span class="allocation-weight">${(asset.weight * 100).toFixed(2)}%</span>
+                                </div>
+                            `).join('');
+
+                            console.log('Analysis complete');
+
+                            // Add this function to calculate comparison metrics
+                            function calculateComparison(portfolioMetrics, benchmarkMetrics) {
+                                return {
+                                    cagr: {
+                                        portfolio: portfolioMetrics.cagr.toFixed(2),
+                                        benchmark: benchmarkMetrics.cagr.toFixed(2),
+                                        diff: (portfolioMetrics.cagr - benchmarkMetrics.cagr).toFixed(2)
+                                    },
+                                    sharpe: {
+                                        portfolio: portfolioMetrics.sharpeRatio.toFixed(2),
+                                        benchmark: benchmarkMetrics.sharpeRatio.toFixed(2),
+                                        diff: (portfolioMetrics.sharpeRatio - benchmarkMetrics.sharpeRatio).toFixed(2)
+                                    },
+                                    stdDev: {
+                                        portfolio: portfolioMetrics.volatility.toFixed(2),
+                                        benchmark: benchmarkMetrics.volatility.toFixed(2),
+                                        diff: (portfolioMetrics.volatility - benchmarkMetrics.volatility).toFixed(2)
+                                    },
+                                    drawdown: {
+                                        portfolio: portfolioMetrics.maxDrawdown.toFixed(2),
+                                        benchmark: benchmarkMetrics.maxDrawdown.toFixed(2),
+                                        diff: (portfolioMetrics.maxDrawdown - benchmarkMetrics.maxDrawdown).toFixed(2)
+                                    },
+                                    marRatio: {
+                                        portfolio: (portfolioMetrics.cagr / portfolioMetrics.maxDrawdown).toFixed(2),
+                                        benchmark: (benchmarkMetrics.cagr / benchmarkMetrics.maxDrawdown).toFixed(2),
+                                        diff: ((portfolioMetrics.cagr / portfolioMetrics.maxDrawdown) - 
+                                              (benchmarkMetrics.cagr / benchmarkMetrics.maxDrawdown)).toFixed(2)
+                                    }
+                                };
+                            }
+
+                            // Add this function to update the comparison table
+                            function updateComparisonTable(comparison) {
+                                // Update CAGR comparison
+                                document.getElementById('strategy-cagr').textContent = comparison.cagr.portfolio + '%';
+                                document.getElementById('sp500-cagr').textContent = comparison.cagr.benchmark + '%';
+
+                                // Update Sharpe Ratio comparison
+                                document.getElementById('strategy-sharpe').textContent = comparison.sharpe.portfolio;
+                                document.getElementById('sp500-sharpe').textContent = comparison.sharpe.benchmark;
+
+                                // Update Standard Deviation comparison
+                                document.getElementById('strategy-std').textContent = comparison.stdDev.portfolio + '%';
+                                document.getElementById('sp500-std').textContent = comparison.stdDev.benchmark + '%';
+
+                                // Update Drawdown comparison
+                                document.getElementById('strategy-drawdown').textContent = '-' + comparison.drawdown.portfolio + '%';
+                                document.getElementById('sp500-drawdown').textContent = '-' + comparison.drawdown.benchmark + '%';
+
+                                // Update MAR Ratio comparison
+                                document.getElementById('strategy-mar').textContent = comparison.marRatio.portfolio;
+                                document.getElementById('sp500-mar').textContent = comparison.marRatio.benchmark;
+                            }
+
+                            // Helper function to format difference values
+                            function formatDifference(value, inversed = false) {
+                                const numValue = parseFloat(value);
+                                const sign = numValue > 0 ? '+' : '';
+                                const color = inversed ? 
+                                    (numValue > 0 ? 'var(--error)' : 'var(--success)') : 
+                                    (numValue > 0 ? 'var(--success)' : 'var(--error)');
+                                
+                                return `<span style="color: ${color}">${sign}${value}${value.includes('%') ? '' : '%'}</span>`;
+                            }
+
+                            // Add this inside the try block where metrics are calculated
+                            const benchmarkMetrics = calculateMetrics(generateDataPoints(diffDays)); // S&P 500 simulation
+                            const comparison = calculateComparison(metrics, benchmarkMetrics);
+                            updateComparisonTable(comparison);
+
+                        } catch (error) {
+                            console.error('Analysis error:', error);
+                            alert('Error analyzing portfolio: ' + error.message);
+                        } finally {
+                            // Reset button state
+                            analyzeButton.disabled = false;
+                            analyzeButton.textContent = 'Analyze Portfolio';
+                        }
+                    }
+
+                    // Helper function to generate semi-random data points
+                    function generateDataPoints(numDays) {
+                        const points = [];
+                        let currentValue = 100; // Start at 100
+
+                        for (let i = 0; i < numDays; i++) {
+                            // Generate random daily return between -2% and 2%
+                            const dailyReturn = (Math.random() * 4 - 2) / 100;
+                            currentValue = currentValue * (1 + dailyReturn);
+                            points.push(currentValue);
+                        }
+
+                        return points;
+                    }
+
+                    // Helper function to generate date labels
+                    function generateDateLabels(startDate, endDate, numDays) {
+                        const labels = [];
+                        const start = new Date(startDate);
+
+                        for (let i = 0; i < numDays; i++) {
+                            const date = new Date(start);
+                            date.setDate(start.getDate() + i);
+                            labels.push(date.toISOString().split('T')[0]);
+                        }
+
+                        return labels;
+                    }
+
+                    // Helper function to calculate metrics
+                    function calculateMetrics(data) {
+                        const returns = [];
+                        for (let i = 1; i < data.length; i++) {
+                            returns.push((data[i] - data[i-1]) / data[i-1]);
+                        }
+
+                        const totalReturn = ((data[data.length - 1] - data[0]) / data[0]) * 100;
+                        const timePeriod = data.length / 252; // Convert days to years
+                        const cagr = (Math.pow(1 + totalReturn/100, 1/timePeriod) - 1) * 100;
+
+                        // Calculate max drawdown
+                        let peak = data[0];
+                        let maxDrawdown = 0;
+                        for (const value of data) {
+                            if (value > peak) peak = value;
+                            const drawdown = (peak - value) / peak * 100;
+                            if (drawdown > maxDrawdown) maxDrawdown = drawdown;
+                        }
+
+                        // Calculate volatility (annualized)
+                        const volatility = Math.sqrt(252) * Math.sqrt(returns.reduce((sum, ret) => sum + ret * ret, 0) / returns.length) * 100;
+
+                        return {
+                            totalReturn: totalReturn,
+                            cagr: cagr,
+                            volatility: volatility,
+                            maxDrawdown: maxDrawdown,
+                            sharpeRatio: (cagr - 2) / volatility, // Assuming 2% risk-free rate
+                            beta: 1 + (Math.random() * 0.5 - 0.25) // Simulated beta
+                        };
+                    }
+
+                    // Add click handler to analyze button
+                    analyzeButton.addEventListener('click', analyzePortfolio);
+                </script>
+
+                <script>
+                    let currentChartType = 'line';
+                    let currentChart = null;
+
+                    // Define chart configurations
+                    const chartConfigs = {
+                        'line': {
+                            type: 'line',
+                            fill: false,
+                            tension: 0.1
+                        },
+                        'area': {
+                            type: 'line',
+                            fill: true,
+                            tension: 0.1
+                        },
+                        'bar': {
+                            type: 'bar',
+                            fill: true,
+                            backgroundColor: '#4c6ef5',
+                            hoverBackgroundColor: '#3b5bdb'
+                        }
+                    };
+
+                    // Update the chart type buttons HTML
+                    document.querySelector('.chart-type-selector').innerHTML = `
+                        <button class="chart-type-btn active" data-type="line">Line</button>
+                        <button class="chart-type-btn" data-type="area">Area</button>
+                        <button class="chart-type-btn" data-type="bar">Bar</button>
+                    `;
+
+                    // Add click handlers for chart type switching
+                    document.querySelectorAll('.chart-type-btn').forEach(button => {
+                        button.addEventListener('click', () => {
+                            // Update active state
+                            document.querySelectorAll('.chart-type-btn').forEach(btn => 
+                                btn.classList.remove('active'));
+                            button.classList.add('active');
+                            
+                            // Update chart type
+                            currentChartType = button.dataset.type;
+                            
+                            // If we have data, update the chart
+                            if (currentChart) {
+                                const config = chartConfigs[currentChartType];
+                                currentChart.config.type = config.type;
+                                currentChart.data.datasets.forEach(dataset => {
+                                    dataset.fill = config.fill;
+                                    dataset.tension = config.tension;
+                                    if (currentChartType === 'bar') {
+                                        dataset.backgroundColor = dataset.borderColor;
+                                    } else {
+                                        dataset.backgroundColor = dataset.borderColor.replace(')', ', 0.1)').replace('rgb', 'rgba');
+                                    }
+                                });
+                                currentChart.update();
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
